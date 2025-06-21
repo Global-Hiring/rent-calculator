@@ -164,7 +164,7 @@ export default function RentCalculator() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Input Section */}
           <Card className="border border-gray-200">
             <CardHeader className="pb-4">
@@ -296,6 +296,75 @@ export default function RentCalculator() {
           </Card>
 
           {/* Management Fee Section */}
+          
+
+
+          {/* Results Section */}
+          <Card className="border border-gray-200">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-lg">Move-in Costs</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {/* Security Deposit */}
+              {securityDepositEnabled && (
+                <div className="flex justify-between items-center py-2 border-b border-gray-200">
+                  <span className="text-sm text-gray-700">Security Deposit</span>
+                  <span className="font-medium">
+                    {formatCurrency(results.securityDeposit)}
+                  </span>
+                </div>
+              )}
+
+              {/* Pet Deposit */}
+              {petDepositEnabled && (
+                <div className="flex justify-between items-center py-2 border-b border-gray-200">
+                  <span className="text-sm text-gray-700">Pet Deposit</span>
+                  <span className="font-medium">
+                    {formatCurrency(results.petDeposit)}
+                  </span>
+                </div>
+              )}
+
+              {/* Full Month Rent */}
+              {fullMonthRent && (
+                <div className="flex justify-between items-center py-2 border-b border-gray-200">
+                  <span className="text-sm text-gray-700">Full Month Rent</span>
+                  <span className="font-medium">
+                    {formatCurrency(results.fullMonthRent)}
+                  </span>
+                </div>
+              )}
+
+              {/* First month pro-rata rent */}
+              {proRataRent && (
+                <div className="flex justify-between items-center py-2 border-b border-gray-200">
+                  <span className="text-sm text-gray-700">First month pro-rata rent</span>
+                  <span className="font-medium">
+                    {formatCurrency(results.proRatedRent)}
+                  </span>
+                </div>
+              )}
+
+              {/* Pre-payment Rent */}
+              {prePaymentRent && (
+                <div className="flex justify-between items-center py-2 border-b border-gray-200">
+                  <span className="text-sm text-gray-700">Pre-payment Rent</span>
+                  <span className="font-medium">
+                    {formatCurrency(results.prePaymentRent)}
+                  </span>
+                </div>
+              )}
+
+              {/* Total Pre-payment */}
+              <div className="flex justify-between items-center pt-3  ">
+                <span className="font-medium text-gray-900">Total Pre-payment</span>
+                <span className="text-lg font-bold">
+                  {formatCurrency(results.totalPrePayment)}
+                </span>
+              </div>
+            </CardContent>
+          </Card>
+
           <Card className="border border-gray-200">
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2 text-lg">
@@ -393,73 +462,6 @@ export default function RentCalculator() {
                   </div>
                 </div>
               )}
-            </CardContent>
-          </Card>
-
-
-          {/* Results Section */}
-          <Card className="border border-gray-200">
-            <CardHeader className="pb-4">
-              <CardTitle className="text-lg">Move-in Costs</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {/* Security Deposit */}
-              {securityDepositEnabled && (
-                <div className="flex justify-between items-center py-2 border-b border-gray-200">
-                  <span className="text-sm text-gray-700">Security Deposit</span>
-                  <span className="font-medium">
-                    {formatCurrency(results.securityDeposit)}
-                  </span>
-                </div>
-              )}
-
-              {/* Pet Deposit */}
-              {petDepositEnabled && (
-                <div className="flex justify-between items-center py-2 border-b border-gray-200">
-                  <span className="text-sm text-gray-700">Pet Deposit</span>
-                  <span className="font-medium">
-                    {formatCurrency(results.petDeposit)}
-                  </span>
-                </div>
-              )}
-
-              {/* Full Month Rent */}
-              {fullMonthRent && (
-                <div className="flex justify-between items-center py-2 border-b border-gray-200">
-                  <span className="text-sm text-gray-700">Full Month Rent</span>
-                  <span className="font-medium">
-                    {formatCurrency(results.fullMonthRent)}
-                  </span>
-                </div>
-              )}
-
-              {/* First month pro-rata rent */}
-              {proRataRent && (
-                <div className="flex justify-between items-center py-2 border-b border-gray-200">
-                  <span className="text-sm text-gray-700">First month pro-rata rent</span>
-                  <span className="font-medium">
-                    {formatCurrency(results.proRatedRent)}
-                  </span>
-                </div>
-              )}
-
-              {/* Pre-payment Rent */}
-              {prePaymentRent && (
-                <div className="flex justify-between items-center py-2 border-b border-gray-200">
-                  <span className="text-sm text-gray-700">Pre-payment Rent</span>
-                  <span className="font-medium">
-                    {formatCurrency(results.prePaymentRent)}
-                  </span>
-                </div>
-              )}
-
-              {/* Total Pre-payment */}
-              <div className="flex justify-between items-center pt-3  ">
-                <span className="font-medium text-gray-900">Total Pre-payment</span>
-                <span className="text-lg font-bold">
-                  {formatCurrency(results.totalPrePayment)}
-                </span>
-              </div>
             </CardContent>
           </Card>
         </div>
