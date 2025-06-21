@@ -157,7 +157,7 @@ export default function RentCalculator() {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
-            Rent Calculator
+            New Tenant or Lease
           </h1>
           <p className="text-gray-600">
             Calculate your move-in costs
@@ -168,7 +168,7 @@ export default function RentCalculator() {
           {/* Input Section */}
           <Card className="border border-gray-200">
             <CardHeader className="pb-4">
-              <CardTitle className="text-lg">Property Details</CardTitle>
+              <CardTitle className="text-lg">Lease Details</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {/* Monthly Rent Input */}
@@ -296,13 +296,13 @@ export default function RentCalculator() {
           </Card>
 
           {/* Management Fee Section */}
-          
+
 
 
           {/* Results Section */}
           <Card className="border border-gray-200">
             <CardHeader className="pb-4">
-              <CardTitle className="text-lg">Move-in Costs</CardTitle>
+              <CardTitle className="text-lg">Breakdown of tenant's payment</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               {/* Security Deposit */}
@@ -368,7 +368,7 @@ export default function RentCalculator() {
           <Card className="border border-gray-200">
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2 text-lg">
-                <Settings className="h-4 w-4" />
+                {/* <Settings className="h-4 w-4" /> */}
                 Management Fee
               </CardTitle>
             </CardHeader>
