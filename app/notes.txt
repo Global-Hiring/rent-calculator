@@ -1,0 +1,101 @@
+when adding the management fees back, make the lg:grid-cols-2  to 3 on         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+<Card className="border border-gray-200">
+            <CardHeader className="pb-4">
+              <CardTitle className="flex items-center gap-2 text-lg">
+                <Settings className="h-4 w-4" />
+                Management Fee
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {/* Fee Type Dropdown */}
+              <div className="space-y-2">
+                <Label className="text-sm">Fee Type</Label>
+                <Select value={feeType} onValueChange={setFeeType}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select fee type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="not-applicable">Not Applicable</SelectItem>
+                    <SelectItem value="percentage">% Basis</SelectItem>
+                    <SelectItem value="fixed">Fixed</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Fee Percentage Input */}
+              {feeType === "percentage" && (
+                <div className="space-y-2">
+                  <Label htmlFor="fee-percentage" className="text-sm">
+                    Fee Percentage (%)
+                  </Label>
+                  <Input
+                    id="fee-percentage"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    max="100"
+                    placeholder="10.00"
+                    value={feePercentage}
+                    onChange={(e) => setFeePercentage(e.target.value)}
+                  />
+                </div>
+              )}
+
+              {/* Minimum Fee Input */}
+              {feeType === "percentage" && (
+                <div className="space-y-2">
+                  <Label htmlFor="minimum-fee" className="text-sm">
+                    Minimum Fee
+                  </Label>
+                  <div className="relative">
+                    <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                    <Input
+                      id="minimum-fee"
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      placeholder="100.00"
+                      value={minimumFee}
+                      onChange={(e) => setMinimumFee(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Override Fee Input */}
+              {feeType === "fixed" && (
+                <div className="space-y-2">
+                  <Label htmlFor="override-fee" className="text-sm">
+                    Override Fee
+                  </Label>
+                  <div className="relative">
+                    <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                    <Input
+                      id="override-fee"
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      placeholder="250.00"
+                      value={overrideFee}
+                      onChange={(e) => setOverrideFee(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Management Fee Result */}
+              {feeType !== "not-applicable" && (
+                <div className="pt-4 border-t border-gray-200">
+                  <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
+                    <span className="font-medium text-gray-900">Management Fee</span>
+                    <span className="text-lg font-bold text-blue-600">
+                      {formatCurrency(managementFeeResults.managementFee)}
+                    </span>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
