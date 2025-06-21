@@ -35,7 +35,7 @@ export default function RentCalculator() {
   const [monthsOfPrePayment, setMonthsOfPrePayment] = useState<string>("1");
   const [securityDepositEnabled, setSecurityDepositEnabled] = useState<boolean>(true);
   const [petDepositEnabled, setPetDepositEnabled] = useState<boolean>(true);
-  
+
   // Management fee states
   const [feeType, setFeeType] = useState<string>("not-applicable");
   const [feePercentage, setFeePercentage] = useState<string>("");
@@ -69,7 +69,7 @@ export default function RentCalculator() {
 
   const calculateResults = () => {
     const rent = parseFloat(monthlyRent);
-    
+
     if (!rent) {
       setResults({
         securityDeposit: 0,
@@ -95,10 +95,10 @@ export default function RentCalculator() {
       const year = moveInDate.getFullYear();
       const month = moveInDate.getMonth();
       const dayOfMonth = moveInDate.getDate();
-      
+
       const totalDaysInMonth = new Date(year, month + 1, 0).getDate();
       const remainingDays = totalDaysInMonth - dayOfMonth + 1;
-      
+
       proRatedRentAmount = (remainingDays / totalDaysInMonth) * rent;
     }
 
@@ -121,7 +121,7 @@ export default function RentCalculator() {
 
   const calculateManagementFee = () => {
     const rent = parseFloat(monthlyRent);
-    
+
     if (!rent || feeType === "not-applicable") {
       setManagementFeeResults({ managementFee: 0 });
       return;
@@ -133,7 +133,7 @@ export default function RentCalculator() {
       const percentage = parseFloat(feePercentage) || 0;
       const minFee = parseFloat(minimumFee) || 0;
       const calculatedFee = (percentage / 100) * rent;
-      
+
       // Use calculated value if it's greater than minimum fee, otherwise use minimum fee
       managementFee = calculatedFee >= minFee ? calculatedFee : minFee;
     } else if (feeType === "fixed") {
@@ -160,7 +160,7 @@ export default function RentCalculator() {
             Rent Calculator
           </h1>
           <p className="text-gray-600">
-            Calculate your move-in costs and management fees
+            Calculate your move-in costs
           </p>
         </div>
 
@@ -296,7 +296,7 @@ export default function RentCalculator() {
           </Card>
 
           {/* Management Fee Section */}
-          
+
 
           {/* Results Section */}
           <Card className="border border-gray-200">
@@ -306,17 +306,17 @@ export default function RentCalculator() {
             <CardContent className="space-y-3">
               {/* Security Deposit */}
               {securityDepositEnabled && (
-                <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                <div className="flex justify-between items-center py-2 border-b border-gray-200">
                   <span className="text-sm text-gray-700">Security Deposit</span>
                   <span className="font-medium">
                     {formatCurrency(results.securityDeposit)}
                   </span>
                 </div>
               )}
-              
+
               {/* Pet Deposit */}
               {petDepositEnabled && (
-                <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                <div className="flex justify-between items-center py-2 border-b border-gray-200">
                   <span className="text-sm text-gray-700">Pet Deposit</span>
                   <span className="font-medium">
                     {formatCurrency(results.petDeposit)}
@@ -326,17 +326,17 @@ export default function RentCalculator() {
 
               {/* Full Month Rent */}
               {fullMonthRent && (
-                <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                <div className="flex justify-between items-center py-2 border-b border-gray-200">
                   <span className="text-sm text-gray-700">Full Month Rent</span>
                   <span className="font-medium">
                     {formatCurrency(results.fullMonthRent)}
                   </span>
                 </div>
               )}
-              
+
               {/* First month pro-rata rent */}
               {proRataRent && (
-                <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                <div className="flex justify-between items-center py-2 border-b border-gray-200">
                   <span className="text-sm text-gray-700">First month pro-rata rent</span>
                   <span className="font-medium">
                     {formatCurrency(results.proRatedRent)}
@@ -346,7 +346,7 @@ export default function RentCalculator() {
 
               {/* Pre-payment Rent */}
               {prePaymentRent && (
-                <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                <div className="flex justify-between items-center py-2 border-b border-gray-200">
                   <span className="text-sm text-gray-700">Pre-payment Rent</span>
                   <span className="font-medium">
                     {formatCurrency(results.prePaymentRent)}
@@ -355,7 +355,7 @@ export default function RentCalculator() {
               )}
 
               {/* Total Pre-payment */}
-              <div className="flex justify-between items-center pt-3 border-t border-gray-200">
+              <div className="flex justify-between items-center pt-3  ">
                 <span className="font-medium text-gray-900">Total Pre-payment</span>
                 <span className="text-lg font-bold">
                   {formatCurrency(results.totalPrePayment)}
