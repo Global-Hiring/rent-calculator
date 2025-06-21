@@ -159,12 +159,11 @@ export default function RentCalculator() {
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
             New Tenant or Lease
           </h1>
-          <p className="text-gray-600">
-            Calculate your move-in costs
-          </p>
+
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
           {/* Input Section */}
           <Card className="border border-gray-200">
             <CardHeader className="pb-4">
@@ -181,7 +180,7 @@ export default function RentCalculator() {
                   <Input
                     id="monthly-rent"
                     type="text"
-                    placeholder="2,500.00"
+                    placeholder="0"
                     value={monthlyRent}
                     onChange={(e) => handleRentChange(e.target.value)}
                     className="pl-10"
@@ -295,10 +294,6 @@ export default function RentCalculator() {
             </CardContent>
           </Card>
 
-          {/* Management Fee Section */}
-
-
-
           {/* Results Section */}
           <Card className="border border-gray-200">
             <CardHeader className="pb-4">
@@ -365,6 +360,7 @@ export default function RentCalculator() {
             </CardContent>
           </Card>
 
+          {/* Management Fee Section */}
           <Card className="border border-gray-200">
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2 text-lg">
@@ -400,7 +396,7 @@ export default function RentCalculator() {
                     step="0.01"
                     min="0"
                     max="100"
-                    placeholder="10.00"
+                    placeholder="0"
                     value={feePercentage}
                     onChange={(e) => setFeePercentage(e.target.value)}
                   />
@@ -420,7 +416,7 @@ export default function RentCalculator() {
                       type="number"
                       step="0.01"
                       min="0"
-                      placeholder="100.00"
+                      placeholder="0"
                       value={minimumFee}
                       onChange={(e) => setMinimumFee(e.target.value)}
                       className="pl-10"
@@ -442,7 +438,7 @@ export default function RentCalculator() {
                       type="number"
                       step="0.01"
                       min="0"
-                      placeholder="250.00"
+                      placeholder="0"
                       value={overrideFee}
                       onChange={(e) => setOverrideFee(e.target.value)}
                       className="pl-10"
