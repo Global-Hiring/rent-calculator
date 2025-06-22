@@ -26,6 +26,10 @@ interface ManagementFeeResults {
   managementFee: number;
 }
 
+interface TenantFeeResults {
+  tenantPlacementFee: number;
+}
+
 export default function RentCalculator() {
   const [monthlyRent, setMonthlyRent] = useState<string>("");
   const [moveInDate, setMoveInDate] = useState<Date>();
@@ -42,6 +46,12 @@ export default function RentCalculator() {
   const [minimumFee, setMinimumFee] = useState<string>("");
   const [overrideFee, setOverrideFee] = useState<string>("");
 
+  // Tenant placement fee states
+  const [tenantFeeType, setTenantFeeType] = useState<string>("not-applicable");
+  const [tenantFeePercentage, setTenantFeePercentage] = useState<string>("");
+  const [tenantMinimumFee, setTenantMinimumFee] = useState<string>("1500");
+  const [tenantFixedFee, setTenantFixedFee] = useState<string>("");
+
   const [results, setResults] = useState<CalculationResults>({
     securityDeposit: 0,
     petDeposit: 0,
@@ -53,6 +63,10 @@ export default function RentCalculator() {
 
   const [managementFeeResults, setManagementFeeResults] = useState<ManagementFeeResults>({
     managementFee: 0,
+  });
+
+  const [tenantFeeResults, setTenantFeeResults] = useState<TenantFeeResults>({
+    tenantPlacementFee: 0,
   });
 
   const formatCurrency = (amount: number): string => {
@@ -143,6 +157,30 @@ export default function RentCalculator() {
     setManagementFeeResults({ managementFee });
   };
 
+  const calculateTenantPlacementFee = () => {
+    const rent = parseFloat(monthlyRent);
+
+    if (!rent || tenantFeeType === "not-applicable") {
+      setTenantFeeResults({ tenantPlacementFee: 0 });
+      return;
+    }
+
+    let tenantPlacementFee = 0;
+
+    if (tenantFeeType === "percentage") {
+      const percentage = parseFloat(tenantFeePercentage) || 0;
+      const minFee = parseFloat(tenantMinimumFee) || 1500;
+      const calculatedFee = (percentage / 100) * rent;
+
+      // Use the greater of calculated fee or minimum fee
+      tenantPlacementFee = Math.max(calculatedFee, minFee);
+    } else if (tenantFeeType === "fixed") {
+      tenantPlacementFee = parseFloat(tenantFixedFee) || 0;
+    }
+
+    setTenantFeeResults({ tenantPlacementFee });
+  };
+
   useEffect(() => {
     calculateResults();
   }, [monthlyRent, moveInDate, fullMonthRent, proRataRent, prePaymentRent, monthsOfPrePayment, securityDepositEnabled, petDepositEnabled]);
@@ -150,6 +188,10 @@ export default function RentCalculator() {
   useEffect(() => {
     calculateManagementFee();
   }, [monthlyRent, feeType, feePercentage, minimumFee, overrideFee]);
+
+  useEffect(() => {
+    calculateTenantPlacementFee();
+  }, [monthlyRent, tenantFeeType, tenantFeePercentage, tenantMinimumFee, tenantFixedFee]);
 
   return (
     <div className="min-h-screen bg-gray-50 p-4">
@@ -162,7 +204,7 @@ export default function RentCalculator() {
 
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           
           {/* Input Section */}
           <Card className="border border-gray-200">
@@ -364,7 +406,7 @@ export default function RentCalculator() {
           <Card className="border border-gray-200">
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2 text-lg">
-                {/* <Settings className="h-4 w-4" /> */}
+                <Settings className="h-4 w-4" />
                 Management Fee
               </CardTitle>
             </CardHeader>
@@ -454,6 +496,107 @@ export default function RentCalculator() {
                     <span className="font-medium text-gray-900">Management Fee</span>
                     <span className="text-lg font-bold text-blue-600">
                       {formatCurrency(managementFeeResults.managementFee)}
+                    </span>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Tenant Placement Fee Section */}
+          <Card className="border border-gray-200">
+            <CardHeader className="pb-4">
+              <CardTitle className="flex items-center gap-2 text-lg">
+                <Home className="h-4 w-4" />
+                Tenant Placement Fee
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {/* Fee Type Dropdown */}
+              <div className="space-y-2">
+                <Label className="text-sm">Fee Type</Label>
+                <Select value={tenantFeeType} onValueChange={setTenantFeeType}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select fee type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="not-applicable">Not Applicable</SelectItem>
+                    <SelectItem value="percentage">% Basis</SelectItem>
+                    <SelectItem value="fixed">Fixed</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Fee Percentage Input */}
+              {tenantFeeType === "percentage" && (
+                <div className="space-y-2">
+                  <Label htmlFor="tenant-fee-percentage" className="text-sm">
+                    % of Rent
+                  </Label>
+                  <Input
+                    id="tenant-fee-percentage"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    max="100"
+                    placeholder="0"
+                    value={tenantFeePercentage}
+                    onChange={(e) => setTenantFeePercentage(e.target.value)}
+                  />
+                </div>
+              )}
+
+              {/* Minimum Fee Input */}
+              {tenantFeeType === "percentage" && (
+                <div className="space-y-2">
+                  <Label htmlFor="tenant-minimum-fee" className="text-sm">
+                    Minimum Fee
+                  </Label>
+                  <div className="relative">
+                    <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                    <Input
+                      id="tenant-minimum-fee"
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      placeholder="1500"
+                      value={tenantMinimumFee}
+                      onChange={(e) => setTenantMinimumFee(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Fixed Fee Input */}
+              {tenantFeeType === "fixed" && (
+                <div className="space-y-2">
+                  <Label htmlFor="tenant-fixed-fee" className="text-sm">
+                    Fixed Fee
+                  </Label>
+                  <div className="relative">
+                    <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                    <Input
+                      id="tenant-fixed-fee"
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      placeholder="0"
+                      value={tenantFixedFee}
+                      onChange={(e) => setTenantFixedFee(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Tenant Placement Fee Result */}
+              {tenantFeeType !== "not-applicable" && (
+                <div className="pt-4 border-t border-gray-200">
+                  <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg">
+                    <span className="font-medium text-gray-900">Tenant Placement Fee</span>
+                    <span className="text-lg font-bold text-green-600">
+                      {formatCurrency(tenantFeeResults.tenantPlacementFee)}
                     </span>
                   </div>
                 </div>
