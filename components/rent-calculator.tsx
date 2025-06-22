@@ -204,7 +204,7 @@ export default function RentCalculator() {
 
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           
           {/* Input Section */}
           <Card className="border border-gray-200">
@@ -406,7 +406,7 @@ export default function RentCalculator() {
           <Card className="border border-gray-200">
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2 text-lg">
-                <Settings className="h-4 w-4" />
+               
                 Management Fee
               </CardTitle>
             </CardHeader>
@@ -507,7 +507,7 @@ export default function RentCalculator() {
           <Card className="border border-gray-200">
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2 text-lg">
-                <Home className="h-4 w-4" />
+
                 Tenant Placement Fee
               </CardTitle>
             </CardHeader>
