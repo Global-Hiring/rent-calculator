@@ -9,7 +9,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CalendarIcon, Calculator, Home, DollarSign, Settings } from "lucide-react";
+import { CalendarIcon, DollarSign } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 
@@ -33,6 +33,7 @@ interface TenantFeeResults {
 export default function RentCalculator() {
   const [monthlyRent, setMonthlyRent] = useState<string>("");
   const [moveInDate, setMoveInDate] = useState<Date>();
+  const [moveInDateOpen, setMoveInDateOpen] = useState<boolean>(false);
   const [fullMonthRent, setFullMonthRent] = useState<boolean>(false);
   const [proRataRent, setProRataRent] = useState<boolean>(false);
   const [prePaymentRent, setPrePaymentRent] = useState<boolean>(false);
@@ -205,7 +206,7 @@ export default function RentCalculator() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          
+
           {/* Input Section */}
           <Card className="border border-gray-200">
             <CardHeader className="pb-4">
@@ -233,7 +234,7 @@ export default function RentCalculator() {
               {/* Move-in Date Input */}
               <div className="space-y-2">
                 <Label className="text-sm">Move-in Date</Label>
-                <Popover>
+                <Popover open={moveInDateOpen} onOpenChange={setMoveInDateOpen}>
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
@@ -246,11 +247,15 @@ export default function RentCalculator() {
                       {moveInDate ? format(moveInDate, "PPP") : "Select date"}
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent className="w-auto overflow-hidden p-0" align="start">
                     <Calendar
                       mode="single"
                       selected={moveInDate}
-                      onSelect={setMoveInDate}
+                      onSelect={(date) => {
+                        setMoveInDate(date)
+                        setMoveInDateOpen(false)
+                      }}
+                      captionLayout="dropdown"
                       initialFocus
                     />
                   </PopoverContent>
@@ -406,7 +411,7 @@ export default function RentCalculator() {
           <Card className="border border-gray-200">
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2 text-lg">
-               
+
                 Management Fee
               </CardTitle>
             </CardHeader>
