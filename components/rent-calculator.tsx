@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Calendar } from "@/components/ui/calendar";
@@ -12,24 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { CalendarIcon, DollarSign } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
-
-interface CalculationResults {
-  securityDeposit: number;
-  petDeposit: number;
-  fullMonthRent: number;
-  proRatedRent: number;
-  prePaymentRent: number;
-  totalPrePayment: number;
-}
-
-interface ManagementFeeResults {
-  managementFee: number;
-}
-
-interface TenantFeeResults {
-  tenantPlacementFee: number;
-}
-
+import { CalculationResults, ManagementFeeResults, TenantFeeResults } from "@/types";
 export default function RentCalculator() {
   const [monthlyRent, setMonthlyRent] = useState<string>("");
   const [moveInDate, setMoveInDate] = useState<Date>();
@@ -411,7 +394,6 @@ export default function RentCalculator() {
           <Card className="border border-gray-200">
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2 text-lg">
-
                 Management Fee
               </CardTitle>
             </CardHeader>
@@ -512,7 +494,6 @@ export default function RentCalculator() {
           <Card className="border border-gray-200">
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2 text-lg">
-
                 Tenant Placement Fee
               </CardTitle>
             </CardHeader>
