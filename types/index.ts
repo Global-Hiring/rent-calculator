@@ -9,9 +9,13 @@ export interface CalculationResults {
 
 export interface ManagementFeeResults {
   managementFee: number;
+  managementFeeGST: number;
+  managementFeeTotal: number;
 }
 
 export interface TenantFeeResults {
   tenantPlacementFee: number;
+  tenantPlacementFeeGST: number;
+  tenantPlacementFeeTotal: number;
 }
 

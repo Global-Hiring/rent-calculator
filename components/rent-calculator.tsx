@@ -47,10 +47,14 @@ export default function RentCalculator() {
 
   const [managementFeeResults, setManagementFeeResults] = useState<ManagementFeeResults>({
     managementFee: 0,
+    managementFeeGST: 0,
+    managementFeeTotal: 0,
   });
 
   const [tenantFeeResults, setTenantFeeResults] = useState<TenantFeeResults>({
     tenantPlacementFee: 0,
+    tenantPlacementFeeGST: 0,
+    tenantPlacementFeeTotal: 0,
   });
 
   const formatCurrency = (amount: number): string => {
@@ -121,7 +125,7 @@ export default function RentCalculator() {
     const rent = parseFloat(monthlyRent);
 
     if (!rent || feeType === "not-applicable") {
-      setManagementFeeResults({ managementFee: 0 });
+      setManagementFeeResults({ managementFee: 0, managementFeeGST: 0, managementFeeTotal: 0 });
       return;
     }
 
@@ -138,14 +142,15 @@ export default function RentCalculator() {
       managementFee = parseFloat(overrideFee) || 0;
     }
 
-    setManagementFeeResults({ managementFee });
+    const managementFeeGST = managementFee * 0.05;
+    setManagementFeeResults({ managementFee, managementFeeGST, managementFeeTotal: managementFee + managementFeeGST });
   };
 
   const calculateTenantPlacementFee = () => {
     const rent = parseFloat(monthlyRent);
 
     if (!rent || tenantFeeType === "not-applicable") {
-      setTenantFeeResults({ tenantPlacementFee: 0 });
+      setTenantFeeResults({ tenantPlacementFee: 0, tenantPlacementFeeGST: 0, tenantPlacementFeeTotal: 0 });
       return;
     }
 
@@ -162,7 +167,8 @@ export default function RentCalculator() {
       tenantPlacementFee = parseFloat(tenantFixedFee) || 0;
     }
 
-    setTenantFeeResults({ tenantPlacementFee });
+    const tenantPlacementFeeGST = tenantPlacementFee * 0.05;
+    setTenantFeeResults({ tenantPlacementFee, tenantPlacementFeeGST, tenantPlacementFeeTotal: tenantPlacementFee + tenantPlacementFeeGST });
   };
 
   useEffect(() => {
@@ -478,11 +484,19 @@ export default function RentCalculator() {
 
               {/* Management Fee Result */}
               {feeType !== "not-applicable" && (
-                <div className="pt-4 border-t border-gray-200">
+                <div className="pt-4 border-t border-gray-200 space-y-2">
+                  <div className="flex justify-between items-center text-sm text-gray-600">
+                    <span>Management Fee</span>
+                    <span>{formatCurrency(managementFeeResults.managementFee)}</span>
+                  </div>
+                  <div className="flex justify-between items-center text-sm text-gray-600">
+                    <span>GST (5%)</span>
+                    <span>{formatCurrency(managementFeeResults.managementFeeGST)}</span>
+                  </div>
                   <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
-                    <span className="font-medium text-gray-900">Management Fee</span>
+                    <span className="font-medium text-gray-900">Total</span>
                     <span className="text-lg font-bold text-blue-600">
-                      {formatCurrency(managementFeeResults.managementFee)}
+                      {formatCurrency(managementFeeResults.managementFeeTotal)}
                     </span>
                   </div>
                 </div>
@@ -578,11 +592,19 @@ export default function RentCalculator() {
 
               {/* Tenant Placement Fee Result */}
               {tenantFeeType !== "not-applicable" && (
-                <div className="pt-4 border-t border-gray-200">
+                <div className="pt-4 border-t border-gray-200 space-y-2">
+                  <div className="flex justify-between items-center text-sm text-gray-600">
+                    <span>Tenant Placement Fee</span>
+                    <span>{formatCurrency(tenantFeeResults.tenantPlacementFee)}</span>
+                  </div>
+                  <div className="flex justify-between items-center text-sm text-gray-600">
+                    <span>GST (5%)</span>
+                    <span>{formatCurrency(tenantFeeResults.tenantPlacementFeeGST)}</span>
+                  </div>
                   <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg">
-                    <span className="font-medium text-gray-900">Tenant Placement Fee</span>
+                    <span className="font-medium text-gray-900">Total</span>
                     <span className="text-lg font-bold text-green-600">
-                      {formatCurrency(tenantFeeResults.tenantPlacementFee)}
+                      {formatCurrency(tenantFeeResults.tenantPlacementFeeTotal)}
                     </span>
                   </div>
                 </div>
